@@ -5,8 +5,6 @@ import dir.types.FigureType;
 import dir.types.MoveType;
 import dir.types.RotationState;
 
-import java.util.Arrays;
-import java.util.Collections;
 
 public abstract class Figure {
     protected static final int FIGURE_SIZE = 4;
@@ -18,16 +16,12 @@ public abstract class Figure {
 
     private int lastMove = 0;
 
-    //    protected Integer[] xPoints;
-//    protected Integer[] yPoints;
     protected Point[] points;
 
     public Figure(Board board, FigureType figureType) {
         this.board = board;
         this.figureType = figureType;
         this.rotationState = RotationState.ANGLE_0;
-//        xPoints = new Integer[4];
-//        yPoints = new Integer[4];
         this.points = new Point[FIGURE_SIZE];
     }
 
@@ -49,7 +43,6 @@ public abstract class Figure {
 
     public void draw() {
         for (int i = 0; i < this.FIGURE_SIZE; i++) {
-//            this.board.addFigureToBoard(xPoints[i], yPoints[i]);
             this.board.addFigureToBoard(points[i].x, points[i].y);
 
         }
@@ -76,6 +69,20 @@ public abstract class Figure {
         return false;
     }
 
+    public boolean canRotate(FigureType typeOfFigure) {
+        Point[] tempPoints = new Point[FIGURE_SIZE];
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            tempPoints[i] = new Point(points[i].x, points[i].y);
+        }
+        rotateClockwise(tempPoints);
+        for (int i = 0; i < FIGURE_SIZE; i++) {
+            if (!this.board.isClear(tempPoints[i].x, tempPoints[i].y)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean canMove(MoveType typeOfMove) {
         Point[] tempPoints = new Point[FIGURE_SIZE];
         for (int i = 0; i < FIGURE_SIZE; i++) {
@@ -98,7 +105,7 @@ public abstract class Figure {
                 return false;
             }
         }
-        return true; //add code here
+        return true;
     }
 
     private void moveLeft(Point[] tempPoints) {
@@ -113,7 +120,7 @@ public abstract class Figure {
                 moveLeft(points);
                 break;
             case RIGHT:
-                moveRight(points); //TODO: Maybe add spinning
+                moveRight(points);
                 break;
             case ROTATE:
                 rotateClockwise(points);

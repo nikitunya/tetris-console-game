@@ -21,7 +21,6 @@ public class ShapeJ extends Figure {
                 points[0].y++;
                 points[2].x--;
                 points[2].y--;
-                // pts[3].x -= 2;
                 points[3].y -= 2;
                 break;
             case ANGLE_90:
@@ -30,14 +29,12 @@ public class ShapeJ extends Figure {
                 points[2].x++;
                 points[2].y--;
                 points[3].x += 2;
-//                 points[3].y--;
                 break;
             case ANGLE_180:
                 points[0].x--;
                 points[0].y--;
                 points[2].x++;
                 points[2].y++;
-                // pts[3].x += 2;
                 points[3].y += 2;
                 break;
             case ANGLE_270:
@@ -46,7 +43,6 @@ public class ShapeJ extends Figure {
                 points[2].x--;
                 points[2].y++;
                 points[3].x -= 2;
-                // pts[3].y -= 2;
                 break;
         }
     }

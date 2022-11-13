@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Board {
-    private static final int BOARD_SIZE = 7;
+    private static final int BOARD_SIZE = 15;
 
     private boolean gameOver = false;
     private boolean board[][];
@@ -19,13 +19,14 @@ public class Board {
 
     private int score = 0;
 
+    FigureType figureType;
+
     public Board() {
         this.board = new boolean[BOARD_SIZE][BOARD_SIZE];
     }
 
     private void print() {
         System.out.println("----------------------");
-//        clearBoard();
         for (int i = 0; i < BOARD_SIZE; i++) {
             System.out.print("*");
             for (int j = 0; j < BOARD_SIZE; j++) {
@@ -77,18 +78,9 @@ public class Board {
             checkForRemoval();
             print();
         }
+        System.out.println("---------");
         System.out.println("Game over");
-//        board[2][1] = true;
-//        board[3][1] = true;
-//        board[2][3] = true;
-//        board[3][3] = true;
-//        for (int i = 0; i < BOARD_SIZE; i++) {
-//            board[i][2] = true;
-//            board[i][4] = true;
-//        }
-//        print();
-//        checkForRemoval();
-//        print();
+        System.out.println("---------");
     }
     private boolean gameOver(){
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -105,7 +97,7 @@ public class Board {
                 board[j][i] = board[j][i - 1];
             }
         }
-        for (int i = 0; i < BOARD_SIZE; i++) { // TODO: Uncomment
+        for (int i = 0; i < BOARD_SIZE; i++) {
             board[i][0] = false;
         }
         score += 1000;
@@ -128,34 +120,37 @@ public class Board {
 
 
     private void moveFigure(MoveType moveType) {
-        if (moveType == MoveType.DOWN && currentFigure.canMove(moveType)) {
-            canMove = true;
+        if (moveType == MoveType.ROTATE && currentFigure.canRotate(this.figureType)){
+            currentFigure.clear();
+            currentFigure.makeMove(moveType);
+//            currentFigure.moveDown();
+            currentFigure.draw();
+        }
+        else if (moveType == MoveType.DOWN && currentFigure.canMove(moveType)) {
             currentFigure.clear();
             currentFigure.moveDown();
             currentFigure.draw();
-        } else if (currentFigure.canMove(moveType)) {
-            canMove = true;
+        } else if (currentFigure.canMove(moveType) && moveType != MoveType.ROTATE) {
             currentFigure.clear();
             currentFigure.makeMove(moveType);
             if (currentFigure.getLastMove() < 2) {
                 currentFigure.moveDown();
             }
-
             currentFigure.draw();
         }
     }
 
     public void addFigureToBoard(int x, int y) {
-        //TODO: Maybe add validation
+        //TODO:
         this.board[x][y] = true;
     }
 
     private void addFigure() {
         Random random = new Random();
-        int placeToSpawn = 3; //TODO: Maybe do it const
-        int randomType = random.nextInt(5); // TODO: make it const as number of figures
+        int placeToSpawn = 7; //TODO: Maybe do it const
+        int randomType = random.nextInt(5);
+        this.figureType = FigureType.getType(randomType);
         currentFigure = Figure.createFigure(FigureType.getType(randomType), placeToSpawn, this);
-//        currentFigure = Figure.createFigure(FigureType.getType(randomType), placeToSpawn, this);
         currentFigure.draw();
     }
 
@@ -167,14 +162,21 @@ public class Board {
         return this.board.length;
     }
 
-    public boolean isClear(int i, int j, Figure f) { // TODO: Figure this out
+    public boolean isClear(int i, int j, Figure f) {
         if (i < 0 || i > BOARD_SIZE - 1 || j < 0 || j > BOARD_SIZE - 1) {
             return false;
         }
         return !board[i][j] || f.contains(i, j);
     }
+    public boolean isClear(int i, int j) {
+        if (i < 0 || i > BOARD_SIZE - 1 || j < 0 || j > BOARD_SIZE - 1) {
+            return false;
+        }
+        return true;
+    }
 
     public boolean getBoardElement(int x, int y) {
         return board[x][y];
     }
+
 }

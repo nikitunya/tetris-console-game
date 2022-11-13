@@ -26,10 +26,8 @@ public class ShapeL extends Figure {
             case ANGLE_90:
                 points[0].x--;
                 points[0].y++;
-
                 points[2].x++;
                 points[2].y--;
-//                points[3].x++;
                 points[3].y -=2;
                 break;
             case ANGLE_180:
@@ -38,15 +36,12 @@ public class ShapeL extends Figure {
                 points[2].x++;
                 points[2].y++;
                 points[3].x += 2;
-//                points[3].y++;
-//                points[3].y += 1;
                 break;
             case ANGLE_270:
                 points[0].y--;
                 points[0].x++;
                 points[2].x--;
                 points[2].y++;
-//                points[3].x++;
                 points[3].y+=2;
                 break;
         }
