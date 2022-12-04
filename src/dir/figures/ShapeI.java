@@ -1,7 +1,7 @@
 package dir.figures;
 
 import dir.Board;
-import dir.types.FigureType;
+import dir.Enums.FigureType;
 
 public class ShapeI extends Figure {
     public ShapeI(FigureType figureType, int x, Board board) {

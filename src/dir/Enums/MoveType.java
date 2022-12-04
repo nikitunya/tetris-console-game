@@ -1,4 +1,4 @@
-package dir.types;
+package dir.Enums;
 
 public enum MoveType {
     LEFT, RIGHT,DOWN, ROTATE;

@@ -1,21 +1,17 @@
 package dir.figures;
 
 import dir.Board;
-import dir.types.FigureType;
-import dir.types.MoveType;
-import dir.types.RotationState;
+import dir.Enums.FigureType;
+import dir.Enums.MoveType;
+import dir.Enums.RotationState;
 
 
 public abstract class Figure {
     protected static final int FIGURE_SIZE = 4;
     protected Board board;
-
     protected FigureType figureType;
-
     protected RotationState rotationState;
-
     private int lastMove = 0;
-
     protected Point[] points;
 
     public Figure(Board board, FigureType figureType) {
@@ -44,7 +40,6 @@ public abstract class Figure {
     public void draw() {
         for (int i = 0; i < this.FIGURE_SIZE; i++) {
             this.board.addFigureToBoard(points[i].x, points[i].y);
-
         }
     }
 
@@ -172,5 +167,9 @@ public abstract class Figure {
 
     public int getLastMove() {
         return lastMove;
+    }
+
+    public FigureType getFigureType() {
+        return figureType;
     }
 }

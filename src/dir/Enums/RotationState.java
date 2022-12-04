@@ -1,4 +1,4 @@
-package dir.types;
+package dir.Enums;
 
 public enum RotationState {
     ANGLE_0, ANGLE_90, ANGLE_180, ANGLE_270;

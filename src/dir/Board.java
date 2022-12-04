@@ -1,11 +1,15 @@
 package dir;
 
+import dir.Logic.InputManager;
+import dir.Rendering.FiguresRenderer;
+import dir.Rendering.RemovalRenderer;
+import dir.Rendering.RenderBoard;
+import dir.Rendering.TextRenderer;
 import dir.figures.Figure;
-import dir.types.FigureType;
-import dir.types.MoveType;
+import dir.Enums.FigureType;
+import dir.Enums.MoveType;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class Board {
     private static final int BOARD_SIZE = 15;
@@ -46,41 +50,63 @@ public class Board {
     }
 
     public void start() {
-        Scanner scanner = new Scanner(System.in);
-        addFigure();
-        print();
-        while (currentFigure.canMove() && !gameOver) {
-            while (true) {
-                System.out.println();
-                System.out.print("Enter move: ");
-                String move = scanner.nextLine();
-                switch (move) {
-                    case "a":
-                        moveFigure(MoveType.LEFT);
-                        break;
-                    case "d":
-                        moveFigure(MoveType.RIGHT);
-                        break;
-                    case "s":
-                        moveFigure(MoveType.DOWN);
-                        break;
-                    case "x":
-                        moveFigure(MoveType.ROTATE);
-                        break;
-                }
-                print();
-                if (!currentFigure.canMove()) {
+        RenderBoard renderBoard = new RenderBoard(this.board);
+        FiguresRenderer figuresRenderer = new FiguresRenderer(this);
+        InputManager inputManager = new InputManager();
+        TextRenderer textRenderer = new TextRenderer();
+        RemovalRenderer removalRenderer = new RemovalRenderer(board);
+
+        Figure currentFigure = figuresRenderer.renderFigure();
+        renderBoard.render();
+
+        while (!gameOver != false){
+            while (true){
+                textRenderer.enterMove();
+                String input = inputManager.readUserInput();
+                inputManager.processUserInput(input, currentFigure);
+
+                if (!currentFigure.canMove()){
                     break;
                 }
             }
-            gameOver = gameOver();
-            addFigure();
-            checkForRemoval();
-            print();
+            currentFigure = figuresRenderer.renderFigure();
+
         }
-        System.out.println("---------");
-        System.out.println("Game over");
-        System.out.println("---------");
+//        Scanner scanner = new Scanner(System.in);
+//        addFigure();
+//        print();
+//        while (currentFigure.canMove() && !gameOver) {
+//            while (true) {
+//                System.out.println();
+//                System.out.print("Enter move: ");
+//                String move = scanner.nextLine();
+//                switch (move) {
+//                    case "a":
+//                        moveFigure(MoveType.LEFT);
+//                        break;
+//                    case "d":
+//                        moveFigure(MoveType.RIGHT);
+//                        break;
+//                    case "s":
+//                        moveFigure(MoveType.DOWN);
+//                        break;
+//                    case "x":
+//                        moveFigure(MoveType.ROTATE);
+//                        break;
+//                }
+//                print();
+//                if (!currentFigure.canMove()) {
+//                    break;
+//                }
+//            }
+//            gameOver = gameOver();
+//            addFigure();
+//            checkForRemoval();
+//            print();
+//        }
+//        System.out.println("---------");
+//        System.out.println("Game over");
+//        System.out.println("---------");
     }
     private boolean gameOver(){
         for (int i = 0; i < BOARD_SIZE; i++) {

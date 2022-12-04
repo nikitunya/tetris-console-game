@@ -1,4 +1,4 @@
-package dir.types;
+package dir.Enums;
 
 public enum FigureType {
     Z, I, O, L, J; // TODO: Add more
